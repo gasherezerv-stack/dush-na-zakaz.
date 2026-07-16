@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#eaf4fb" />
+  <title>Душ на заказ</title>
+  <style>
+    :root{
+      --bg:#eaf4fb;
+      --panel:#ffffff;
+      --panel2:#dcedf7;
+      --line:#b9d9ec;
+      --text:#111111;
+      --muted:#3d4a52;
+      --gold:#2f7fbf;
+      --gold-dark:#256a9e;
+      --white:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .app{
+      width:min(100%,620px);
+      margin:0 auto;
+      min-height:100vh;
+      padding:28px 22px 40px;
+    }
+
+    .brand{
+      margin-bottom:28px;
+    }
+
+    .brand .small{
+      font-size:14px;
+      letter-spacing:4px;
+      color:var(--muted);
+      font-weight:700;
+      text-transform:uppercase;
+    }
+
+    .brand h1{
+      margin:8px 0 0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:38px;
+      line-height:1.05;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .section{
+      margin-top:26px;
+    }
+
+    .section-title{
+      margin:0 0 12px;
+      font-size:15px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      color:var(--text);
+      font-weight:800;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    label{
+      display:block;
+      margin:0 0 7px;
+      color:var(--text);
+      font-size:16px;
+      font-weight:700;
+    }
+
+    input{
+      width:100%;
+      min-height:58px;
+      padding:14px 16px;
+      border:2px solid var(--line);
+      border-radius:18px;
+      background:var(--panel);
+      color:var(--text);
+      font-size:21px;
+      font-weight:700;
+      outline:none;
+    }
+
+    input::placeholder{color:#7a8a92}
+
+    input:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(47,127,191,.15);
+    }
+
+    select{
+      width:100%;
+      min-height:58px;
+      padding:14px 40px 14px 16px;
+      border:2px solid var(--line);
+      border-radius:18px;
+      background:var(--panel);
+      color:var(--text);
+      font-size:21px;
+      font-weight:700;
+      outline:none;
+      appearance:none;
+      -webkit-appearance:none;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%233d4a52' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+      background-repeat:no-repeat;
+      background-position:right 16px center;
+    }
+
+    select:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(47,127,191,.15);
+    }
+
+    .field{margin-bottom:16px}
+
+    .summary{
+      margin-top:26px;
+      padding:24px;
+      border:2px solid var(--line);
+      border-radius:22px;
+      background:var(--panel);
+    }
+
+    .summary-title{
+      margin-bottom:18px;
+      font-size:15px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      font-weight:800;
+      color:var(--text);
+    }
+
+    .summary-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:8px 0;
+      color:var(--text);
+      font-size:17px;
+    }
+
+    .summary-line strong{
+      color:var(--text);
+      font-size:18px;
+    }
+
+    .summary-line.total{
+      margin-top:14px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      font-size:21px;
+      font-weight:900;
+    }
+
+    .summary-line.total strong{
+      color:var(--gold);
+      font-size:26px;
+    }
+
+    .btn{
+      width:100%;
+      margin-top:22px;
+      padding:16px;
+      border:none;
+      border-radius:16px;
+      background:var(--gold);
+      color:#ffffff;
+      font-size:18px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .btn.secondary{
+      background:transparent;
+      border:2px solid var(--line);
+      color:var(--text);
+    }
+
+    .error{
+      display:none;
+      margin:0 0 18px;
+      padding:13px 14px;
+      border-radius:12px;
+      background:#fde2e2;
+      color:#8a1f1f;
+      font-weight:700;
+    }
+
+    #proposalScreen{display:none}
+
+    .proposal{
+      background:#fff;
+      color:#111;
+      border-radius:20px;
+      padding:28px;
+    }
+
+    .proposal h2{
+      margin:0;
+      text-align:center;
+      color:#0b3a5a;
+      font-size:31px;
+      letter-spacing:1px;
+    }
+
+    .proposal h3{
+      margin:8px 0 22px;
+      text-align:center;
+      color:#333;
+      font-size:17px;
+    }
+
+    .proposal table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+    }
+
+    .proposal th{
+      background:#0b3a5a;
+      color:#fff;
+      text-align:left;
+    }
+
+    .proposal th,.proposal td{
+      border:1px solid #cfe0ea;
+      padding:12px;
+      font-size:16px;
+      color:#111;
+    }
+
+    .price-box{
+      margin-top:24px;
+      padding:20px 14px;
+      border:2px solid #0b3a5a;
+      border-radius:14px;
+      text-align:center;
+    }
+
+    .price-label{
+      color:#0b3a5a;
+      text-transform:uppercase;
+      font-size:14px;
+      letter-spacing:1px;
+      font-weight:800;
+    }
+
+    .price{
+      margin-top:8px;
+      color:#0b3a5a;
+      font-size:38px;
+      font-weight:900;
+    }
+
+    .included{
+      margin-top:20px;
+      padding:13px;
+      border-radius:10px;
+      background:#eaf4fb;
+      text-align:center;
+      font-weight:700;
+      color:#111;
+    }
+
+    .contacts{
+      margin-top:22px;
+      padding-top:18px;
+      border-top:1px solid #d6e2ea;
+      text-align:center;
+      line-height:1.7;
+      color:#111;
+    }
+
+    .actions{margin-top:18px}
+
+    @media print{
+      @page{size:A4;margin:14mm}
+      body{background:#fff}
+      .app{width:100%;max-width:none;padding:0}
+      .brand,#formScreen,.actions{display:none!important}
+      #proposalScreen{display:block!important}
+      .proposal{padding:0;border-radius:0}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="brand">
+      <div class="small">Душ на заказ</div>
+      <h1>Расчет душевой кабины</h1>
+    </header>
+
+    <section id="formScreen">
+      <div id="errorBox" class="error"></div>
+
+      <div class="section">
+        <div class="section-title">1. Первое стекло (мм)</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="w1">Ширина</label>
+            <input id="w1" type="number" inputmode="numeric" placeholder="900">
+          </div>
+          <div class="field">
+            <label for="h1">Высота</label>
+            <input id="h1" type="number" inputmode="numeric" placeholder="2000">
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">2. Второе стекло (мм)</div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="w2">Ширина</label>
+            <input id="w2" type="number" inputmode="numeric" placeholder="500">
+          </div>
+          <div class="field">
+            <label for="h2">Высота</label>
+            <input id="h2" type="number" inputmode="numeric" placeholder="2000">
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">3. Цена стекла, ₸/м²</div>
+        <div class="field">
+          <input id="glassPrice" type="number" inputmode="numeric" placeholder="12000">
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="grid-2">
+          <div>
+            <div class="section-title">4. Цвет стекла</div>
+            <div class="field">
+              <select id="glassColor">
+                <option>Прозрачное</option>
+                <option>Матовое</option>
+                <option>Бронза</option>
+                <option>Графит</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-title">5. Цвет фурнитуры</div>
+            <div class="field">
+              <select id="hardwareColor">
+                <option>Хром</option>
+                <option>Черный матовый</option>
+                <option>Золото</option>
+                <option>Латунь</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">6. Фурнитура, ₸</div>
+        <div class="field">
+          <input id="furniture" type="number" inputmode="numeric" placeholder="45000">
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">7. Работа, ₸</div>
+        <div class="field">
+          <input id="work" type="number" inputmode="numeric" placeholder="15000">
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="summary-title">Итог</div>
+        <div class="summary-line"><span>Стекло</span><strong id="glassTotalView">—</strong></div>
+        <div class="summary-line"><span>Фурнитура</span><strong id="furnitureView">—</strong></div>
+        <div class="summary-line"><span>Работа</span><strong id="workView">—</strong></div>
+        <div class="summary-line total"><span>Итого</span><strong id="grandTotalView">—</strong></div>
+      </div>
+
+      <button id="createBtn" class="btn" type="button">СОЗДАТЬ КП</button>
+    </section>
+
+    <section id="proposalScreen">
+      <article class="proposal">
+        <h2>ДУШ НА ЗАКАЗ</h2>
+        <h3>КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Параметр</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Стекло №1</td>
+              <td id="glass1Result"></td>
+            </tr>
+            <tr>
+              <td>Стекло №2</td>
+              <td id="glass2Result"></td>
+            </tr>
+            <tr>
+              <td>Цвет стекла</td>
+              <td id="glassColorResult"></td>
+            </tr>
+            <tr>
+              <td>Цвет фурнитуры</td>
+              <td id="hardwareColorResult"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="price-box">
+          <div class="price-label">Общая стоимость</div>
+          <div id="totalResult" class="price"></div>
+        </div>
+
+        <div class="included">✓ Замер и монтаж входят в стоимость.</div>
+
+        <div class="contacts">
+          <strong>ДУШ НА ЗАКАЗ</strong><br>
+          WhatsApp: +7 776 844 05 85<br>
+          Instagram: @dush.nazakaz
+        </div>
+      </article>
+
+      <div class="actions">
+        <button id="pdfBtn" class="btn" type="button">СОХРАНИТЬ В PDF</button>
+        <button id="backBtn" class="btn secondary" type="button">НАЗАД</button>
+      </div>
+    </section>
+  </main>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+
+  const calcIds = ["w1","h1","w2","h2","glassPrice","furniture","work"];
+
+  function num(id){
+    const v = parseFloat($(id).value);
+    return Number.isFinite(v) ? v : 0;
+  }
+
+  function money(v){
+    return new Intl.NumberFormat("ru-RU",{maximumFractionDigits:0}).format(Math.round(v)) + " ₸";
+  }
+
+  function calculate(){
+    const area1 = num("w1") * num("h1") / 1000000;
+    const area2 = num("w2") * num("h2") / 1000000;
+    const glassTotal = (area1 + area2) * num("glassPrice");
+    const furniture = num("furniture");
+    const work = num("work");
+    const grand = glassTotal + furniture + work;
+
+    $("glassTotalView").textContent = glassTotal ? money(glassTotal) : "—";
+    $("furnitureView").textContent = furniture ? money(furniture) : "—";
+    $("workView").textContent = work ? money(work) : "—";
+    $("grandTotalView").textContent = grand ? money(grand) : "—";
+
+    return {area1,area2,glassTotal,furniture,work,grand};
+  }
+
+  calcIds.forEach(id => $(id).addEventListener("input", calculate));
+
+  function showError(text){
+    $("errorBox").textContent = text;
+    $("errorBox").style.display = "block";
+    $("errorBox").scrollIntoView({behavior:"smooth",block:"center"});
+  }
+
+  function clearError(){
+    $("errorBox").style.display = "none";
+    $("errorBox").textContent = "";
+  }
+
+  $("createBtn").addEventListener("click", function(){
+    clearError();
+
+    const w1 = num("w1");
+    const h1 = num("h1");
+    const w2 = num("w2");
+    const h2 = num("h2");
+    const glassColor = $("glassColor").value.trim();
+    const hardwareColor = $("hardwareColor").value.trim();
+    const calc = calculate();
+
+    if(!w1 || !h1 || !w2 || !h2){
+      showError("Заполните размеры обоих стекол.");
+      return;
+    }
+
+    if(!num("glassPrice")){
+      showError("Введите цену стекла за 1 м².");
+      return;
+    }
+
+    if(!glassColor || !hardwareColor){
+      showError("Укажите цвет стекла и цвет фурнитуры.");
+      return;
+    }
+
+    $("glass1Result").textContent = `${w1} × ${h1} мм`;
+    $("glass2Result").textContent = `${w2} × ${h2} мм`;
+    $("glassColorResult").textContent = glassColor;
+    $("hardwareColorResult").textContent = hardwareColor;
+    $("totalResult").textContent = money(calc.grand);
+
+    $("formScreen").style.display = "none";
+    $("proposalScreen").style.display = "block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+
+  $("backBtn").addEventListener("click", function(){
+    $("proposalScreen").style.display = "none";
+    $("formScreen").style.display = "block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+
+  $("pdfBtn").addEventListener("click", function(){
+    window.print();
+  });
+
+  calculate();
+})();
+</script>
+</body>
+</html>
