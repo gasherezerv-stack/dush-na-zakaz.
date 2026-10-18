@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Душ на заказ">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
 <script>
 // Auto-generated subsetted DejaVu fonts (Latin+Cyrillic) as base64, for jsPDF Cyrillic support
 window.PDF_FONTS = {
@@ -155,6 +155,12 @@ window.PDF_FONTS = {
     text-align:center;
     margin-top:12px;
   }
+  .hint.legal{
+    font-size:11px;
+    opacity:.7;
+    margin-top:22px;
+    line-height:1.4;
+  }
 </style>
 </head>
 <body>
@@ -234,6 +240,7 @@ window.PDF_FONTS = {
 
   <button class="cta" id="createBtn">СОЗДАТЬ КП</button>
   <div class="hint">Откроется меню «Поделиться» — выберите WhatsApp</div>
+  <div class="hint legal">© Душ на заказ. Программа защищена авторским правом. Копирование, передача третьим лицам и перепродажа без письменного разрешения запрещены.</div>
 </div>
 
 <script>
@@ -409,6 +416,7 @@ $('createBtn').addEventListener('click', () => {
   doc.text('Instagram: @dush.nazakaz', tableX, footerY+28);
   doc.text(todayStr(), tableX+tableW, footerY, {align:'right'});
   doc.text('Стр. 1 из 1', tableX+tableW, footerY+14, {align:'right'});
+  doc.text('Создано в «Душ на заказ»', tableX+tableW, footerY+28, {align:'right'});
 
   const filename = `KP_DushNaZakaz_${Date.now()}.pdf`;
   const blob = doc.output('blob');

@@ -1,11 +1,11 @@
-const CACHE = 'dush-na-zakaz-v1';
+const CACHE = 'dush-na-zakaz-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  './lib/jspdf.umd.min.js'
 ];
 
 self.addEventListener('install', e => {
