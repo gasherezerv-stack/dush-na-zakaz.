@@ -155,6 +155,13 @@ window.PDF_FONTS = {
     text-align:center;
     margin-top:12px;
   }
+  .credit{
+    text-align:center;
+    font-size:13px;
+    letter-spacing:1px;
+    color:var(--gold);
+    margin-top:24px;
+  }
   .hint.legal{
     font-size:11px;
     opacity:.7;
@@ -240,6 +247,7 @@ window.PDF_FONTS = {
 
   <button class="cta" id="createBtn">СОЗДАТЬ КП</button>
   <div class="hint">Откроется меню «Поделиться» — выберите WhatsApp</div>
+  <div class="credit">Создано в <b>gashe</b></div>
   <div class="hint legal">© gashe. Программа защищена авторским правом. Копирование, передача третьим лицам и перепродажа без письменного разрешения запрещены.</div>
 </div>
 
@@ -416,7 +424,7 @@ $('createBtn').addEventListener('click', () => {
   doc.text('Instagram: @dush.nazakaz', tableX, footerY+28);
   doc.text(todayStr(), tableX+tableW, footerY, {align:'right'});
   doc.text('Стр. 1 из 1', tableX+tableW, footerY+14, {align:'right'});
-  doc.text('Создано в «Душ на заказ»', tableX+tableW, footerY+28, {align:'right'});
+  doc.text('Создано в gashe', tableX+tableW, footerY+28, {align:'right'});
 
   const filename = `KP_DushNaZakaz_${Date.now()}.pdf`;
   const blob = doc.output('blob');
